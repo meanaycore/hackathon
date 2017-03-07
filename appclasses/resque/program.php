@@ -6,6 +6,8 @@
  * Time: 10:35 AM
  */
 
+use SlimRunner\AppConfig as AppConfig;
+
 class Resque_ProgramParser extends ResqueHackathon
 {
 
@@ -73,6 +75,9 @@ class Resque_ProgramParser extends ResqueHackathon
                             Logger::log($element->getAttribute('schedule-id'), __FILE__, __LINE__, __METHOD__);
                             Logger::log($parts['title'], __FILE__, __LINE__, __METHOD__);
                         }
+
+
+                        Resque::enqueue(AppConfig::get('redis', 'queue'), 'Resque_ProgramInfo', ['programid'=>$data['programid']]);
 
 
                         //Logger::log(print_r($data, true), __FILE__, __LINE__, __METHOD__);

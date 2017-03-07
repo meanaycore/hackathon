@@ -6,6 +6,8 @@
  * Time: 10:35 AM
  */
 
+use SlimRunner\AppConfig as AppConfig;
+
 class Resque_ProgramInfo extends ResqueHackathon
 {
 
@@ -23,13 +25,36 @@ class Resque_ProgramInfo extends ResqueHackathon
 
         if (!empty($content)) {
 
+            $programInfo = $this->db->loadModel('ProgramInfo');
+
+            $currentProgram = $programInfo->getByProgrammeId($this->args['programid']);
+
+            Logger::log(print_r($currentProgram, TRUE), __FILE__, __LINE__, __METHOD__);
+
             $dom = new \DOMDocument('1.0');
             $dom->loadHTML($content);
 
-            Logger::log($this->getTitle($dom), __FILE__, __LINE__, __METHOD__);
-            Logger::log(print_r($this->getSeriesInfo($dom), TRUE), __FILE__, __LINE__, __METHOD__);
+            $data = $this->getSeriesInfo($dom);
+            $data['title'] = $this->getTitle($dom);
+            $data['programid'] = $this->args['programid'];
 
-            var_dump($this->getSeriesInfo($dom));
+            if (empty($currentProgram)) {
+                $programInfo->add($data);
+
+
+
+            } else {
+                // @todo
+            }
+
+            // For now, lets just do series
+            if (!empty($data['season_id'])) {
+                Resque::enqueue(AppConfig::get('redis', 'queue'), 'Resque_OpenMovieDatabase', ['programid'=>$data['programid']]);
+            }
+
+
+            Logger::log(print_r($data, TRUE), __FILE__, __LINE__, __METHOD__);
+
         }
 
     }

@@ -1,0 +1,11 @@
+{
+    "require": {
+        "tohir/slimrunner": "dev-master",
+        "tohir/database": "dev-master@dev",
+        "chrisboulton/php-resque": "1.2",
+        "robmorgan/phinx": "^0.6.4"
+    },
+    "autoload": {
+        "classmap": ["appclasses/"]
+    }
+}

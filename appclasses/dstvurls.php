@@ -11,9 +11,9 @@ class DSTVUrls
     }
     
     
-    public static function getChangesInGenre($genre)
+    public static function getChannelsInGenre($premiumId, $genre)
     {
-        return 'http://guide.dstv.com/api/channel/fetchChannelsByGenresInBouquet?bouquetId=c35aaecd-5dd1-480b-ae24-357e600a0e4d&genre='.urlencode($genre);
+        return 'http://guide.dstv.com/api/channel/fetchChannelsByGenresInBouquet?bouquetId='.$premiumId.'&genre='.urlencode($genre);
     }
     
     

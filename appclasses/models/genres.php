@@ -34,4 +34,9 @@ class DBModel_Genres extends \Tohir\DBModel
     {
         return $this->db->select($this->tableName, ['canindex'=>'Y']);
     }
+
+    public function getByName($type)
+    {
+        return $this->getRow('name', $type);
+    }
 }

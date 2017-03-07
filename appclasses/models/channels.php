@@ -1,12 +1,12 @@
 <?php
 
-class DBModel_Packages extends \Tohir\DBModel
+class DBModel_Channels extends \Tohir\DBModel
 {
 
     /**
      * @var string Name of Table
      */
-    protected $tableName = 'packages';
+    protected $tableName = 'channels';
 
     /**
      * @var string Primary of Table
@@ -23,20 +23,20 @@ class DBModel_Packages extends \Tohir\DBModel
      */
     protected $dateUpdateColumn = 'date_updated';
 
-    protected $tableColumns = array(
-            'packageid',
-            'title',
-            'packagecode',
-        );
+    protected $tableColumns = [
+            'channelid',
+            'channelname',
+            'channelnumber',
+            'channeltag',
+            'channellogo',
+            'channelurl',
+            'description',
+            'genre_id',
+            'active',
+        ];
 
-    public function getPremiumId()
+    public function getByChannelTag($tag)
     {
-        $row = $this->getRow('packagecode', 'PRM');
-
-        if (empty($row)) {
-            return FALSE;
-        } else {
-            return $row['packageid'];
-        }
+        return $this->getRow('channeltag', $tag);
     }
 }

@@ -35,8 +35,14 @@ class DBModel_Programs extends \Tohir\DBModel
             'episode_id',
         ];
 
-    public function getByProgramId($progId)
+    public function hasProgramme($progId, $date, $time, $channel)
     {
-        return $this->getRow('programid', $progId);
+        $result = $this->db->select($this->tableName, ['programid'=>$progId, 'program_date'=>$date, 'starttime'=>$time, 'channel_tag'=>$channel]);
+
+        if (count($result) == 0) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
     }
 }

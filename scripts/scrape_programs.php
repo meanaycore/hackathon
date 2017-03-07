@@ -8,9 +8,18 @@ $genresDb = $db->loadModel('Genres');
 
 $genres = $genresDb->getIndexableGenres();
 
+$numberOfDays = 5;
+
 $date = date('Y-m-d');
 
 foreach ($genres as $genre)
 {
-    Resque::enqueue(AppConfig::get('redis', 'queue'), 'Resque_ProgramParser', ['genre'=>$genre['name'], 'date'=>$date]);
+
+    for($i=0;$i<=$numberOfDays;$i++)
+    {
+        $date = date('Y-m-d', strtotime(' +'.$i.' day'));
+        Resque::enqueue(AppConfig::get('redis', 'queue'), 'Resque_ProgramParser', ['genre'=>$genre['name'], 'date'=>$date]);
+    }
+
+
 }

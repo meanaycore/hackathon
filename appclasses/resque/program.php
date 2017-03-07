@@ -51,8 +51,8 @@ class Resque_ProgramParser extends ResqueHackathon
                     $parts = $this->extractTitleTime($dom->saveHTML($element));
 
                     if (empty($parts['title'])) {
-                        Logger::log('** Missing Title', __FILE__, __LINE__, __METHOD__);
-                        Logger::log($dom->saveHTML($element), __FILE__, __LINE__, __METHOD__);
+                        //Logger::log('** Missing Title', __FILE__, __LINE__, __METHOD__);
+                        //Logger::log($dom->saveHTML($element), __FILE__, __LINE__, __METHOD__);
                     } else {
 
                         $data = [
@@ -63,12 +63,15 @@ class Resque_ProgramParser extends ResqueHackathon
                             'channel_tag'  => $key,
                         ];
 
-                        $existingProgram = $programs->getByProgramId($data['programid']);
+                        //hasProgramme($progId, $date, $time, $channel)
+                        $existingProgram = $programs->hasProgramme($data['programid'], $data['program_date'], $data['starttime'], $data['channel_tag']);
 
-                        if (empty($existingProgram)) {
+                        if ($existingProgram === FALSE) {
                             $programs->add($data);
                         } else {
-                            // @todo
+                            Logger::log('** Duplicate', __FILE__, __LINE__, __METHOD__);
+                            Logger::log($element->getAttribute('schedule-id'), __FILE__, __LINE__, __METHOD__);
+                            Logger::log($parts['title'], __FILE__, __LINE__, __METHOD__);
                         }
 
 

@@ -24,6 +24,7 @@ class AppRun extends \SlimRunner\SlimRunner
             array('/year/:year',    FALSE,      'year',         'get', array('year' => '\d+')),
             array('/redirect',      FALSE,      'redirect'),
             array('/calendar/:programid',      FALSE,      'calendar'),
+            array('/programname',      FALSE,      'programname'),
 
         ));
     }
@@ -54,6 +55,13 @@ class AppRun extends \SlimRunner\SlimRunner
     protected function redirect_get()
     {
         $this->redirect('/year/2000?redirect');
+    }
+
+    protected function programname_get()
+    {
+        // Sample URL : http://hackathon.dev/programname?title=Cold%20Case%20Files
+        
+        var_dump($this->db->getProgramSchedule($this->getValue('title', 'Misfit Garage')));
     }
     
 

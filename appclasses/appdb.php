@@ -8,14 +8,29 @@
 
 class AppDB extends \Tohir\Database
 {
-    public function getTestData()
+    public function getProgramSchedule($title)
     {
-        return $this->db->select('test');
-    }
+        $sql = <<<SQL
+SELECT 
 
-    public function getAllUsers()
-    {
-        return $this->db->select('tbl_users', array('isactive'=>'1'));
+channels.channelname,
+channels.channelnumber,
+programschedule.channel_tag, 
+programschedule.program_date, 
+programschedule.starttime, 
+programinfo.season_id, 
+programinfo.episode_id, 
+programinfo.description
+
+FROM programschedule
+INNER JOIN programinfo ON (programschedule.programid = programinfo.programid)
+INNER JOIN channels ON (programschedule.channel_tag = channels.channeltag)
+
+ WHERE programschedule.title = :title
+SQL;
+
+        return $this->db->query($sql, ['title' => $title]);
+
     }
 }
 

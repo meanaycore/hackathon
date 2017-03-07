@@ -20,4 +20,10 @@ class DSTVUrls
     {
         return 'http://guide.dstv.com/api/gridview/page?bouquetId='.$premiumId.'&genre='.urlencode($genre).'&date='.$date;
     }
+
+    public static function getProgramInfo($programId)
+    {
+        return 'http://guide.dstv.com/popup/'.$programId;
+    }
+
 }

@@ -1,12 +1,12 @@
 <?php
 
-class DBModel_Programs extends \Tohir\DBModel
+class DBModel_ProgramInfo extends \Tohir\DBModel
 {
 
     /**
      * @var string Name of Table
      */
-    protected $tableName = 'programschedule';
+    protected $tableName = 'programinfo';
 
     /**
      * @var string Primary of Table
@@ -25,11 +25,14 @@ class DBModel_Programs extends \Tohir\DBModel
 
     protected $tableColumns = [
             'programid',
-            'channel_tag',
             'title',
-            'program_date',
-            'starttime',
-            'endtime',
+            'description',
+            'programimage',
+            'programtype',
+            'imdb_id',
+            'imdb_rating',
+            'season_id',
+            'episode_id',
         ];
 
     public function hasProgramme($progId, $date, $time, $channel)

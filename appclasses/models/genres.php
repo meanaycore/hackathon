@@ -32,6 +32,6 @@ class DBModel_Genres extends \Tohir\DBModel
 
     public function getIndexableGenres()
     {
-
+        return $this->db->select($this->tableName, ['canindex'=>'Y']);
     }
 }

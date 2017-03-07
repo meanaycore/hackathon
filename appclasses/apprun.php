@@ -23,6 +23,7 @@ class AppRun extends \SlimRunner\SlimRunner
             array('/',              FALSE,      'home',     'get'),
             array('/year/:year',    FALSE,      'year',         'get', array('year' => '\d+')),
             array('/redirect',      FALSE,      'redirect'),
+            array('/calendar/:programid',      FALSE,      'calendar'),
 
         ));
     }
@@ -40,7 +41,16 @@ class AppRun extends \SlimRunner\SlimRunner
     {
         return $this->template->loadTemplate('content/year.tpl', array('year'=>$year));
     }
-    
+
+    protected function calendar_get($programid)
+    {
+        $this->setLayoutTemplate(null);
+        $this->setLayoutTemplate(null);
+
+        return $this->template->loadTemplate('content/year.tpl', array('year'=>$programid));
+    }
+
+
     protected function redirect_get()
     {
         $this->redirect('/year/2000?redirect');

@@ -13,35 +13,28 @@ class AppRun extends \SlimRunner\SlimRunner
         
         $this->setPageTemplate(AppConfig::get('templates', 'page'));
         $this->setLayoutTemplate(AppConfig::get('templates', 'layout'));
+
+        $this->db = new AppDB(AppConfig::get('database', 'server'), AppConfig::get('database', 'dbname'), AppConfig::get('database', 'dbuser'), AppConfig::get('database', 'dbpass'));
         
         $this->template->persistTemplateVar('persistedVar', 'I go on every page');
-        
+        $this->template->persistTemplateVar('pageTitle', '*** CHANGE ME ***');
+
         $this->registerRoutes(array(
-            array('/',              FALSE,  'home', 'get|post|put|delete|patch'),
-            array('/year/:year',    'akhona',      'year', 'get', array('year' => '\d+')),
+            array('/',              FALSE,      'home',     'get'),
+            array('/year/:year',    FALSE,      'year',         'get', array('year' => '\d+')),
             array('/redirect',      FALSE,      'redirect'),
-            array('/checkemail',     FALSE,      'checkemail'),
-            
-            array('/api/email',     'api',      'Api::email', 'post'),
+
         ));
-    }
-    
-    protected function accesscheck_api()
-    {
-        $this->setIsAjaxResponse();
     }
 
     
-    protected function home_get() {return 'home_get';}
-    protected function home_post() {return 'home_post';}
-    protected function home_put() {
-        
-        echo $this->inputValue('hello');
-        
-        return 'home_put';
+    protected function home_get()
+    {
+        $packages = $this->db->loadModel('Packages');
+
+        return $this->template->loadTemplate('content/home.tpl', array('packages'=>$packages->getAll()));
+
     }
-    protected function home_delete() {return 'home_delete';}
-    protected function home_patch() {return 'home_patch';}
     
     protected function year_get($year)
     {

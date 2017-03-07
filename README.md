@@ -23,3 +23,10 @@ This will create the database tables. See http://docs.phinx.org/en/latest/migrat
 10) Whenever adding a new class, you need to run composer install and stop/start `script_resque.sh`.
 
 
+
+
+# DB Issues.
+
+IF you having issues, comment out these lines in hackathon/vendor/tohir/database/src/db.php
+
+Wherever it says: ` $this->db->query("SET NAMES 'UTF8';", array(), TRUE);`

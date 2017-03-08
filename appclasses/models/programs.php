@@ -42,4 +42,9 @@ class DBModel_Programs extends \Tohir\DBModel
             return TRUE;
         }
     }
+
+    public function getSchedule($channelTag, $date)
+    {
+        return $this->db->select($this->tableName, ['channel_tag'=>$channelTag, 'program_date'=>$date], null, null, ['starttime'=>'asc']);
+    }
 }

@@ -26,6 +26,10 @@ class AppRun extends \SlimRunner\SlimRunner
             array('/calendar/:programid',      FALSE,      'calendar'),
             array('/programname',      FALSE,      'programname'),
 
+
+            array('/channels',              FALSE,      'channels'),
+            array('/channels/:channel',     FALSE,      'channelinfo'),
+
         ));
     }
 
@@ -62,6 +66,37 @@ class AppRun extends \SlimRunner\SlimRunner
         // Sample URL : http://hackathon.dev/programname?title=Cold%20Case%20Files
         
         var_dump($this->db->getProgramSchedule($this->getValue('title', 'Misfit Garage')));
+    }
+
+    protected function channels_get()
+    {
+        $channelObj = $this->db->loadModel('Channels');
+
+        $this->template->persistTemplateVar('pageTitle', 'Channels List');
+
+        return $this->template->loadTemplate('content/channels.tpl', array('channels'=>$channelObj->getListChannels()));
+    }
+
+    protected function channelinfo_get($channel)
+    {
+        $channelObj = $this->db->loadModel('Channels');
+        $programsObj = $this->db->loadModel('Programs');
+
+        $channelInfo = $channelObj->getByChannelTag($channel);
+
+        if (empty($channelInfo)) {
+            return $this->redirect('/channels');
+        }
+
+        $this->template->persistTemplateVar('pageTitle', $channelInfo['channelname']);
+
+        $date = $this->getValue('date', date('Y-m-d'));
+
+        // @todo Validate Date
+
+        $schedule = $programsObj->getSchedule($channel, $date);
+
+        return $this->template->loadTemplate('content/channelinfo.tpl', array('channel'=>$channelInfo, 'schedule'=>$schedule));
     }
     
 

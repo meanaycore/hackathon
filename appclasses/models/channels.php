@@ -39,4 +39,11 @@ class DBModel_Channels extends \Tohir\DBModel
     {
         return $this->getRow('channeltag', $tag);
     }
+
+    public function getListChannels()
+    {
+        return $this->db->select($this->tableName, ['active'=>'Y'], null, null, [
+            'channelnumber' => 'asc'
+        ]);
+    }
 }

@@ -49,7 +49,7 @@ class Resque_ProgramInfo extends ResqueHackathon
 
             // For now, lets just do series
             if (!empty($data['season_id'])) {
-                Resque::enqueue(AppConfig::get('redis', 'queue'), 'Resque_OpenMovieDatabase', ['programid'=>$data['programid']]);
+                Resque::enqueue(AppConfig::get('redis', 'queue'), 'ResqueOpenMovieDatabase', ['programid'=>$data['programid']]);
             }
 
 

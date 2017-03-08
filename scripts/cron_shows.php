@@ -10,5 +10,5 @@ $titles = $progInfo->getDistinctTitles();
 
 foreach ($titles as $show)
 {
-    Resque::enqueue(AppConfig::get('redis', 'queue'), '\Resque_ShowInfo', ['programid'=>$show['programid']]);
+    Resque::enqueue(AppConfig::get('redis', 'queue'), 'ResqueShowInfo', ['programid'=>$show['programid']]);
 }

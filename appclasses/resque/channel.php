@@ -6,7 +6,7 @@
  * Time: 10:35 AM
  */
 
-class Resque_ChannelParser extends ResqueHackathon
+class ResqueChannelParser extends ResqueHackathon
 {
 
     public function perform()
@@ -47,7 +47,7 @@ class Resque_ChannelParser extends ResqueHackathon
                         'channelname' => $item['channelName'],
                         'channelnumber' => $item['channelNumber'],
                         'channeltag' => $item['channelTag'],
-                        'channellogo' => $item['channelLogoPaths']['XLARGE'],
+                        'channellogo' => $item['channelLogoPaths']['LARGE'],
                         'channelurl' => $item['channelUrl'],
                         'description' => $item['description'],
                         'genre_id' => $genreInfo['id'],

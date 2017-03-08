@@ -10,5 +10,5 @@ $genres = $genresDb->getIndexableGenres();
 
 foreach ($genres as $genre)
 {
-    Resque::enqueue(AppConfig::get('redis', 'queue'), 'Resque_ChannelParser', ['genre'=>$genre['name']]);
+    Resque::enqueue(AppConfig::get('redis', 'queue'), 'ResqueChannelParser', ['genre'=>$genre['name']]);
 }

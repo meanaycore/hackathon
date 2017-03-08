@@ -18,7 +18,7 @@ foreach ($genres as $genre)
     for($i=0;$i<=$numberOfDays;$i++)
     {
         $date = date('Y-m-d', strtotime(' +'.$i.' day'));
-        Resque::enqueue(AppConfig::get('redis', 'queue'), 'Resque_ProgramParser', ['genre'=>$genre['name'], 'date'=>$date]);
+        Resque::enqueue(AppConfig::get('redis', 'queue'), 'ResqueProgramParser', ['genre'=>$genre['name'], 'date'=>$date]);
     }
 
 

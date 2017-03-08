@@ -8,7 +8,7 @@
 
 use SlimRunner\AppConfig as AppConfig;
 
-class Resque_ShowInfo extends ResqueHackathon
+class ResqueShowInfo extends ResqueHackathon
 {
 
     public function perform()

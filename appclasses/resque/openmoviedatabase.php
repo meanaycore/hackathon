@@ -8,7 +8,7 @@
 
 use SlimRunner\AppConfig as AppConfig;
 
-class Resque_OpenMovieDatabase extends ResqueHackathon
+class ResqueOpenMovieDatabase extends ResqueHackathon
 {
 
     public function perform()

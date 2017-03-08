@@ -96,9 +96,11 @@ class AppRun extends \SlimRunner\SlimRunner
 
         $schedule = $programsObj->getSchedule($channel, $date);
 
-        return $this->template->loadTemplate('content/channelinfo.tpl', array('channel'=>$channelInfo, 'schedule'=>$schedule));
-    }
-    
+        $nextDay = date('Y-m-d', strtotime($date .' +1 day'));
+        $prevDay = date('Y-m-d', strtotime($date .' -1 day'));
 
+
+        return $this->template->loadTemplate('content/channelinfo.tpl', array('channel'=>$channelInfo, 'schedule'=>$schedule, 'nextDay'=>$nextDay, 'prevDay'=>$prevDay, 'date'=>date("j F, Y", strtotime($date))));
+    }
     
 }

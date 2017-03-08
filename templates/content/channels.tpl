@@ -17,6 +17,3 @@
 
     {/foreach}
 </div>
-
-
-{$channels|var_dump}

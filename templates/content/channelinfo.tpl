@@ -7,7 +7,7 @@
 {/if}
 
 
-<h3>Schedule</h3>
+<h3>Schedule for: {$date}</h3>
 
 <table class="table table-striped">
     {foreach $schedule as $item}
@@ -22,3 +22,7 @@
         </tr>
     {/foreach}
 </table>
+
+<a href="/channels/{$channel.channeltag}?date={$prevDay}" class="btn btn-default">Previous Day</a>
+<a href="/channels/{$channel.channeltag}?date={$nextDay}" class="btn btn-default">Next Day</a>
+

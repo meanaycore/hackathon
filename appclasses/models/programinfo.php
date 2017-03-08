@@ -39,4 +39,9 @@ class DBModel_ProgramInfo extends \Tohir\DBModel
     {
         return $this->getRow('programid', $progId);
     }
+
+    public function getDistinctTitles()
+    {
+        return $this->db->query('select title, programid from programschedule group by title');
+    }
 }

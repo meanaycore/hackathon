@@ -12,3 +12,6 @@ date_default_timezone_set(AppConfig::get('datetime', 'timezone', 'GMT'));
 
 Resque::setBackend(AppConfig::get('redis', 'server'));
 Logger::setLogFile(APPLICATION_PATH.'/cache/logfile.log');
+
+require APPLICATION_PATH.'/appclasses/resque/resque_abstract.php';
+require APPLICATION_PATH.'/appclasses/resque/showinfo.php';

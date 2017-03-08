@@ -20,7 +20,7 @@ class Resque_ShowInfo extends ResqueHackathon
 
         $currentProgram = $programInfo->getByProgrammeId($this->args['programid']);
 
-        Logger::log(print_r($currentProgram, true), __FILE__, __LINE__, __METHOD__);
+        //Logger::log(print_r($currentProgram, true), __FILE__, __LINE__, __METHOD__);
 
         if (empty($currentProgram)) {
             return;
@@ -54,10 +54,18 @@ class Resque_ShowInfo extends ResqueHackathon
 
         if ($content['Response'] == 'False') {
             Logger::log('No Content Found', __FILE__, __LINE__, __METHOD__);
+
+            $data = [
+                    'imdb_id' => $currentProgram['title'],
+                    'title' => $currentProgram['title'],
+                    'shorturl' => Utils::cleanUrl($currentProgram['title']),
+                ];
+            $showInfo->add($data);
+
             return;
         }
 
-        //Logger::log(print_r($content, true), __FILE__, __LINE__, __METHOD__);
+        Logger::log(print_r($content, true), __FILE__, __LINE__, __METHOD__);
 
         $data = [
             'title'         => $this->getArrayValue($content, 'Title'),
@@ -76,6 +84,8 @@ class Resque_ShowInfo extends ResqueHackathon
         Logger::log(print_r($data, true), __FILE__, __LINE__, __METHOD__);
 
         $showInfo->add($data);
+
+        sleep(1);
     }
 
 }

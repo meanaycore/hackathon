@@ -62,4 +62,25 @@ sql;
     {
         return $this->db->select($this->tableName, null, null, null, ['channel_tag'=>'asc', 'program_date'=>'desc', 'starttime'=>'desc']);
     }
+
+
+    public function getDistinctTitles($channelList)
+    {
+        $list = explode('|', $channelList);
+
+        $string = '';
+        $join = '';
+
+        foreach ($list as $item)
+        {
+            $string .= $join."'{$item}'";
+            $join = ', ';
+        }
+
+        return $this->db->query('select title, programid, season_id from programschedule 
+        INNER JOIN programinfo ON (programschedule.programid = programinfo.programid)
+        WHERE channel_tag IN ('.$string.')  group by title');
+    }
+
+
 }

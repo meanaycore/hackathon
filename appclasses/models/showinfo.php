@@ -34,6 +34,10 @@ class DBModel_ShowInfo extends \Tohir\DBModel
             'imdb_id',
             'imdb_rating',
             'tomato_rating',
+            'genre',
+            'director',
+            'actors',
+            'awards',
         ];
 
     public function getByTitle($title)

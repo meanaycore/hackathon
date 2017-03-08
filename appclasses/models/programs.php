@@ -46,9 +46,10 @@ class DBModel_Programs extends \Tohir\DBModel
     public function getSchedule($channelTag, $date)
     {
         $sql = <<<sql
-SELECT programschedule.*, programinfo.description, season_id, episode_id
+SELECT programschedule.*, programinfo.description, season_id, episode_id, showinfo.shorturl, showtype, showinfo.showimage
 FROM programschedule
 INNER JOIN programinfo ON (programschedule.programid = programinfo.programid)
+LEFT JOIN showinfo ON (programschedule.title = showinfo.internaltitle)
 WHERE channel_tag = :channel_tag AND program_date=:program_date
 ORDER BY starttime ASC
 sql;

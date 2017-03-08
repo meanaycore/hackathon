@@ -30,6 +30,12 @@ class AppRun extends \SlimRunner\SlimRunner
             array('/channels',              FALSE,      'channels'),
             array('/channels/:channel',     FALSE,      'channelinfo'),
 
+            array('/series',              FALSE,      'series'),
+            array('/series/:channel',     FALSE,      'seriesinfo'),
+
+            array('/movie',              FALSE,      'movies'),
+            array('/movie/:channel',     FALSE,      'moviesinfo'),
+
         ));
     }
 
@@ -101,6 +107,42 @@ class AppRun extends \SlimRunner\SlimRunner
 
 
         return $this->template->loadTemplate('content/channelinfo.tpl', array('channel'=>$channelInfo, 'schedule'=>$schedule, 'nextDay'=>$nextDay, 'prevDay'=>$prevDay, 'date'=>date("j F, Y", strtotime($date))));
+    }
+
+    protected function series_get()
+    {
+
+    }
+
+    protected function seriesinfo_get($shortUrl)
+    {
+        $showInfoObj = $this->db->loadModel('ShowInfo');
+
+        $show = $showInfoObj->getByShortUrl($shortUrl);
+
+        if (empty($show)) {
+            return $this->showPageNotFound();
+        }
+
+        $this->template->persistTemplateVar('pageTitle', $show['title']);
+
+        return $this->template->loadTemplate('content/showinfo.tpl', array('show'=>$show));
+    }
+
+    protected function movies_get()
+    {
+
+    }
+
+    protected function moviesinfo_get($shortUrl)
+    {
+        return $this->seriesinfo_get($shortUrl);
+    }
+
+    protected function showPageNotFound()
+    {
+        $this->template->persistTemplateVar('pageTitle', 'Page Not Found');
+        return 'Page Not Found';
     }
     
 }

@@ -12,9 +12,17 @@
 <table class="table table-striped">
     {foreach $schedule as $item}
         <tr>
-            <td class="nowrap">{$item.starttime|date_format:"%I:%M %p"}</td>
+            <td class="nowrap">
+                {$item.starttime|date_format:"%I:%M %p"}
+            </td>
             <td>
-                <strong>{$item.title}</strong>
+
+
+                {if $item.showtype}
+                <strong><a href="/{$item.showtype}/{$item.shorturl}">{$item.title}</a></strong>
+                {else}
+                    <strong>{$item.title}</strong>
+                {/if}
 
                 <p>{$item.description|escape}</p>
 

@@ -17,4 +17,24 @@ class Utils
 
         return $clean;
     }
+
+    public static function explodePipe($string)
+    {
+        $parts = explode('|', $string);
+
+        $return = '';
+        $comma = '';
+
+        foreach ($parts as $part)
+        {
+            if (empty($part)) {
+                continue;
+            }
+
+            $return .= $comma.$part;
+            $comma = ', ';
+        }
+
+        return $return;
+    }
 }

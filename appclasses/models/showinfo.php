@@ -50,4 +50,9 @@ class DBModel_ShowInfo extends \Tohir\DBModel
     {
         return $this->getRow('internaltitle', $title);
     }
+
+    public function getByShortUrl($url)
+    {
+        return $this->getRow('shorturl', $url);
+    }
 }

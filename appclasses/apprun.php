@@ -21,9 +21,9 @@ class AppRun extends \SlimRunner\SlimRunner
 
         $this->registerRoutes(array(
             array('/',              FALSE,      'home',     'get'),
-            array('/year/:year',    FALSE,      'year',         'get', array('year' => '\d+')),
-            array('/redirect',      FALSE,      'redirect'),
-            array('/calendar/:programid',      FALSE,      'calendar'),
+            //array('/year/:year',    FALSE,      'year',         'get', array('year' => '\d+')),
+            //array('/redirect',      FALSE,      'redirect'),
+            //array('/calendar/:programid',      FALSE,      'calendar'),
             array('/programname',      FALSE,      'programname'),
 
 
@@ -32,9 +32,11 @@ class AppRun extends \SlimRunner\SlimRunner
 
             array('/series',              FALSE,      'series'),
             array('/series/:channel',     FALSE,      'seriesinfo'),
+            array('/series/:show/ical',     FALSE,      'showcalendar'),
 
             array('/movie',              FALSE,      'movies'),
-            array('/movie/:channel',     FALSE,      'moviesinfo'),
+            array('/movie/:channel',     FALSE,      'seriesinfo'),
+            array('/movie/:show/ical',     FALSE,      'showcalendar'),
 
         ));
     }
@@ -149,6 +151,47 @@ class AppRun extends \SlimRunner\SlimRunner
     {
         $this->template->persistTemplateVar('pageTitle', 'Page Not Found');
         return 'Page Not Found';
+    }
+
+    protected function showcalendar_get($shortUrl)
+    {
+        $this->setPageTemplate(null);
+        $this->setLayoutTemplate(null);
+
+        $showInfoObj = $this->db->loadModel('ShowInfo');
+
+        $show = $showInfoObj->getByShortUrl($shortUrl);
+
+        if (empty($show)) {
+            return $this->showPageNotFound();
+        }
+
+        $programsObj = $this->db->loadModel('Programs');
+
+        $schedule = $programsObj->getScheduleForShow($show['internaltitle']);
+
+        $vCalendar = new \Eluceo\iCal\Component\Calendar($show['title']);
+
+        foreach($schedule as $item) {
+
+            $vEvent = new \Eluceo\iCal\Component\Event();
+
+            $vEvent
+                ->setDtStart(new \DateTime($item['program_date'].' '.$item['starttime']))
+                ->setDtEnd(new \DateTime($item['program_date'].' '.$item['endtime']))
+                ->setSummary($item['title']);
+
+            $vCalendar->addComponent($vEvent);
+        }
+
+
+
+
+        header('Content-Type: text/calendar; charset=utf-8');
+        //header('Content-Disposition: attachment; filename="cal.ics"');
+
+
+        return  $vCalendar->render();
     }
     
 }

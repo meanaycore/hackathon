@@ -90,7 +90,7 @@ INNER JOIN programinfo ON (programschedule.programid = programinfo.programid)
 INNER JOIN channels ON (programschedule.channel_tag = channels.channeltag)
 LEFT JOIN showinfo ON (programschedule.title = showinfo.internaltitle)
 WHERE programschedule.title = :show
-ORDER BY starttime ASC
+ORDER BY program_date, starttime ASC
 sql;
 
         return $this->db->query($sql, ['show'=>$show], null, null, ['program_date'=>'asc', 'startime'=>'asc']);

@@ -12,11 +12,11 @@
 <table class="table table-striped">
     {foreach $schedule as $item}
         <tr>
-            <td>{$item.starttime|date_format:"%I:%M %p"}</td>
+            <td class="nowrap">{$item.starttime|date_format:"%I:%M %p"}</td>
             <td>
-                {$item.title}
+                <strong>{$item.title}</strong>
 
-                <br >@todo - More Info
+                <p>{$item.description|escape}</p>
 
             </td>
         </tr>

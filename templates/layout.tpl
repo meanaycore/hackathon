@@ -56,7 +56,7 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<div style="border: 1px dashed red; padding: 40px;">
+ <div>
     {$content}
 </div>
 

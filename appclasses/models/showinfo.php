@@ -55,4 +55,45 @@ class DBModel_ShowInfo extends \Tohir\DBModel
     {
         return $this->getRow('shorturl', $url);
     }
+
+    public function getByType($type)
+    {
+        $sql = <<<SQL
+
+                SELECT *
+
+                FROM showinfo
+
+                WHERE showinfo.showtype = :type
+                
+                AND imdb_rating IS NOT NULL
+                AND showimage IS NOT NULL
+
+                ORDER BY showinfo.imdb_rating DESC;
+SQL;
+
+        return $this->db->query($sql, ['type'=>$type]);
+    }
+
+    public function getTodaySchedule($type){
+
+        $sql = <<<SQL
+
+                SELECT *
+
+                FROM showinfo,programschedule
+
+                WHERE showinfo.internaltitle = programschedule.title AND programschedule.program_date = CURDATE() AND showinfo.showtype = :type
+                AND showimage IS NOT NULL
+                
+                GROUP BY showinfo.internaltitle
+
+                ORDER BY showinfo.imdb_rating DESC
+                
+                LIMIT 10;
+SQL;
+
+        return $this->db->query($sql, ['type'=>$type]);
+
+    }
 }

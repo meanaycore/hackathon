@@ -1,19 +1,18 @@
-<h1>Channels</h1>
+<h1>{$title}</h1>
 
+<div class="row ">
+    {foreach $shows as $show}
 
-
-
-<div class="row">
-    {foreach $channels as $channel}
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="well text-center">
-            <a href="/channels/{$channel.channeltag}">
-            {$channel.channelname}<br />
-            <img src="{$channel.channellogo}" /></a>
+            <a href="/{$showType}/{$show.shorturl}">
+            {$show.title} - {$show.imdb_rating}
+            <img src="{$show.showimage}?a" class="img-responsive" /></a>
 
-            <br />&nbsp;
         </div>
     </div>
+
+
 
     {/foreach}
 </div>

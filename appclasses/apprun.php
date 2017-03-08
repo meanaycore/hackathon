@@ -46,7 +46,12 @@ class AppRun extends \SlimRunner\SlimRunner
     {
         $packages = $this->db->loadModel('Packages');
 
-        return $this->template->loadTemplate('content/home.tpl', array('packages'=>$packages->getAll()));
+        $showInfoObj = $this->db->loadModel('ShowInfo');
+
+        $movies = $showInfoObj->getTodaySchedule('movie');
+        $series = $showInfoObj->getTodaySchedule('series');
+
+        return $this->template->loadTemplate('content/home.tpl', array('movies'=>$movies, 'series'=>$series));
 
     }
     
@@ -113,7 +118,14 @@ class AppRun extends \SlimRunner\SlimRunner
 
     protected function series_get()
     {
+        $showInfoObj = $this->db->loadModel('ShowInfo');
 
+        $shows = $showInfoObj->getByType('series');
+
+        $this->template->persistTemplateVar('pageTitle', 'Top Rated Series');
+
+
+        return $this->template->loadTemplate('content/shows.tpl', array('shows'=>$shows, 'showType'=>'series', 'title'=>'Top Rated Series'));
     }
 
     protected function seriesinfo_get($shortUrl)
@@ -139,7 +151,14 @@ class AppRun extends \SlimRunner\SlimRunner
 
     protected function movies_get()
     {
+        $showInfoObj = $this->db->loadModel('ShowInfo');
 
+        $shows = $showInfoObj->getByType('movie');
+
+        $this->template->persistTemplateVar('pageTitle', 'Top Rated Movies');
+
+
+        return $this->template->loadTemplate('content/shows.tpl', array('shows'=>$shows, 'showType'=>'movie', 'title'=>'Top Rated Movies'));
     }
 
     protected function moviesinfo_get($shortUrl)

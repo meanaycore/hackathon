@@ -1,19 +1,38 @@
-<div class="jumbotron">
-    <h1>Hello, world!</h1>
-    <p>...</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-</div>
 
-<p>Note: this is <a href="http://www.smarty.net/">smarty syntax</a></p>
 
-<ul>
-{foreach $packages as $package}
-    <li>
-        <strong>{$package.title|escape}</strong>
-        
-        <br />{$package.packagecode}
-        
-        <br />&nbsp;
-    </li>
+<h1>Top Movies Showing Today</h1>
+
+{foreach $movies as $item}
+    <div class="media">
+        <div class="media-left media-top">
+            <a href="#">
+                <img class="media-object" src="{$item.showimage}?a" class="img-responsive" style=" max-width: 100px"/>
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">
+                <a href="/movie/{$item.shorturl}">{$item.title}</a>
+            </h4>
+            <p>{$item.description|truncate:400}</p>
+        </div>
+    </div>
 {/foreach}
-</ul>
+
+
+<h1>Top Series Showing Today</h1>
+
+{foreach $series as $item}
+    <div class="media">
+        <div class="media-left media-top">
+            <a href="#">
+                <img class="media-object" src="{$item.showimage}?a" class="img-responsive" style=" max-width: 100px"/>
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">
+                <a href="/series/{$item.shorturl}">{$item.title}</a>
+            </h4>
+            <p>{$item.description|truncate:400}</p>
+        </div>
+    </div>
+{/foreach}

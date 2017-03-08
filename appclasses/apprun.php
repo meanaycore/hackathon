@@ -176,10 +176,21 @@ class AppRun extends \SlimRunner\SlimRunner
 
             $vEvent = new \Eluceo\iCal\Component\Event();
 
+            $title = $item['title'];
+
+            if (!empty($item['season_id'])) {
+                $title .= ' - Season '.$item['season_id'];
+            }
+
+            if (!empty($item['episode_id'])) {
+                $title .= ' - Episode '.$item['episode_id'];
+            }
+
             $vEvent
                 ->setDtStart(new \DateTime($item['program_date'].' '.$item['starttime']))
                 ->setDtEnd(new \DateTime($item['program_date'].' '.$item['endtime']))
-                ->setSummary($item['title']);
+                ->setSummary($title)
+                ->setDescription($item['description']);
 
             $vCalendar->addComponent($vEvent);
         }

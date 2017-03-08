@@ -15,18 +15,12 @@ class ResqueShowInfo extends ResqueHackathon
     {
         Logger::log(print_r($this->args, true), __FILE__, __LINE__, __METHOD__);
 
-        $programInfo = $this->db->loadModel('ProgramInfo');
         $showInfo = $this->db->loadModel('ShowInfo');
 
-        $currentProgram = $programInfo->getByProgrammeId($this->args['programid']);
+        $title = $this->args['title'];
+        $season = $this->args['season'];
 
-        //Logger::log(print_r($currentProgram, true), __FILE__, __LINE__, __METHOD__);
-
-        if (empty($currentProgram)) {
-            return;
-        }
-
-        $show = $showInfo->getByTitle($currentProgram['title']);
+        $show = $showInfo->getByInternalTitle($title);
 
         // Ignore if we have content
         if (!empty($show)) {
@@ -34,10 +28,14 @@ class ResqueShowInfo extends ResqueHackathon
         }
 
         $queryParams = [
-            't' => $currentProgram['title'],
+            't' => $title,
             'plot' => 'full',
             'tomatoes' => 'true',
         ];
+
+        if (!empty($season)) {
+            $queryParams['type'] = 'series';
+        }
 
         $url = 'http://www.omdbapi.com/?'.http_build_query($queryParams);
 
@@ -52,13 +50,22 @@ class ResqueShowInfo extends ResqueHackathon
 
         $content = json_decode($content, true);
 
+        $shortUrl = Utils::cleanUrl($this->getArrayValue($content, 'Title'));
+
+        // Cater for blank shorturl
+        if (empty($shortUrl)) {
+            $shortUrl = md5($title);
+        }
+
+
         if ($content['Response'] == 'False') {
             Logger::log('No Content Found', __FILE__, __LINE__, __METHOD__);
 
             $data = [
-                    'imdb_id' => $currentProgram['title'],
-                    'title' => $currentProgram['title'],
-                    'shorturl' => Utils::cleanUrl($currentProgram['title']),
+                    //'imdb_id' =>$title,
+                    'internaltitle' =>$title,
+                    'title' => $title,
+                    'shorturl' => $shortUrl,
                 ];
             $showInfo->add($data);
 
@@ -69,7 +76,8 @@ class ResqueShowInfo extends ResqueHackathon
 
         $data = [
             'title'         => $this->getArrayValue($content, 'Title'),
-            'shorturl'      => Utils::cleanUrl($this->getArrayValue($content, 'Title')),
+            'internaltitle' => $title,
+            'shorturl'      => $shortUrl,
             'description'   => $this->getArrayValue($content, 'Plot'),
             //'tvdbdesc'      => $this->getArrayValue($content, 'Title'),
             'showtype'      => $this->getArrayValue($content, 'Type'),
@@ -78,6 +86,10 @@ class ResqueShowInfo extends ResqueHackathon
             'imdb_id'       => $this->getArrayValue($content, 'imdbID'),
             'imdb_rating'   => $this->getArrayValue($content, 'imdbRating'),
             'tomato_rating' => $this->getArrayValue($content, 'tomatoRating'),
+            'genre'         => $this->convertToPiped($this->getArrayValue($content, 'Genre')),
+            'director'      => $this->getArrayValue($content, 'Director'),
+            'actors'        => $this->convertToPiped($this->getArrayValue($content, 'Actors')),
+            'awards'        => $this->getArrayValue($content, 'Awards'),
         ];
 
 
@@ -87,5 +99,7 @@ class ResqueShowInfo extends ResqueHackathon
 
         sleep(1);
     }
+
+
 
 }

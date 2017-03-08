@@ -38,10 +38,16 @@ class DBModel_ShowInfo extends \Tohir\DBModel
             'director',
             'actors',
             'awards',
+            'internaltitle',
         ];
 
     public function getByTitle($title)
     {
         return $this->getRow('title', $title);
+    }
+
+    public function getByInternalTitle($title)
+    {
+        return $this->getRow('internaltitle', $title);
     }
 }

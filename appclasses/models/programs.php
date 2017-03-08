@@ -77,7 +77,7 @@ sql;
             $join = ', ';
         }
 
-        return $this->db->query('select title, programid, season_id from programschedule 
+        return $this->db->query('select programschedule.title, programschedule.programid, programinfo.season_id from programschedule 
         INNER JOIN programinfo ON (programschedule.programid = programinfo.programid)
         WHERE channel_tag IN ('.$string.')  group by title');
     }

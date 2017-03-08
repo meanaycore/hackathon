@@ -27,4 +27,16 @@ abstract class ResqueHackathon
         return $value;
     }
 
+
+    protected function convertToPiped($string)
+    {
+        if (empty($string)) {
+            return $string;
+        }
+
+        $string = str_replace(', ', '|', $string);
+
+        return '|'.$string.'|';
+    }
+
 }

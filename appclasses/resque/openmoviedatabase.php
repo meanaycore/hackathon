@@ -13,6 +13,14 @@ class ResqueOpenMovieDatabase extends ResqueHackathon
 
     public function perform()
     {
+        return;
+
+
+        // NOT USING ANYMORE
+
+
+
+
         Logger::log(print_r($this->args, true), __FILE__, __LINE__, __METHOD__);
 
         $programInfo = $this->db->loadModel('ProgramInfo');

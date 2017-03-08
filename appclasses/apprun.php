@@ -51,6 +51,8 @@ class AppRun extends \SlimRunner\SlimRunner
         $movies = $showInfoObj->getTodaySchedule('movie');
         $series = $showInfoObj->getTodaySchedule('series');
 
+        $this->template->persistTemplateVar('pageTitle', 'TV Guide Mashup');
+
         return $this->template->loadTemplate('content/home.tpl', array('movies'=>$movies, 'series'=>$series));
 
     }

@@ -84,7 +84,7 @@ SQL;
                 FROM showinfo,programschedule
 
                 WHERE showinfo.internaltitle = programschedule.title AND programschedule.program_date = CURDATE() AND showinfo.showtype = :type
-                AND showimage IS NOT NULL
+                AND showimage IS NOT NULL AND starttime >= CURTIME()
                 
                 GROUP BY showinfo.internaltitle
 

@@ -1,7 +1,7 @@
 <div class="row">
 {if $show.showimage}
     <div class="col-md-3" style="padding-top: 20px;">
-        <img src="{$show.showimage}?" class="img-responsive" >
+        <img src="{$show.showimage}?a" class="img-responsive" >
     </div>
     <div class="col-md-9">
     {else}

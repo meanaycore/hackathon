@@ -8,7 +8,7 @@
     <div class="col-md-12">
 {/if}
 
-<h1>{$show.title}</h1>
+<h1>{$show.title} <a href="/{$show.showtype}/{$show.shorturl}/ical"><img src="/ical_icon.gif"></a></h1>
 
 <p>{$show.description}</p>
 
@@ -64,14 +64,19 @@
 
                     </td>
                     <td class="text-center">
+
+                        {$item.channelnumber}
+                        <br />
                         <a href="/channels/{$item.channel_tag}?date={$item.program_date}">
                         <img src="{$item.channellogo}">
                         </a>
 
-                        {$item.channelnumber}
+
                     </td>
                 </tr>
             {/foreach}
         </table>
 
 <h1>See Also</h1>
+
+        <p>Coming Soon</p>

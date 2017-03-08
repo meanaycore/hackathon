@@ -47,8 +47,8 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/">Today's Movies</a></li>
-                    <li><a href="/">Today's Series</a></li>
+                    <li><a href="/movie">Today's Movies</a></li>
+                    <li><a href="/series">Today's Series</a></li>
                     <li><a href="/channels">Channels</a></li>
                 </ul>
 

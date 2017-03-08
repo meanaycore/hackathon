@@ -47,4 +47,9 @@ class DBModel_Programs extends \Tohir\DBModel
     {
         return $this->db->select($this->tableName, ['channel_tag'=>$channelTag, 'program_date'=>$date], null, null, ['starttime'=>'asc']);
     }
+
+    public function getForEndDateFix()
+    {
+        return $this->db->select($this->tableName, null, null, null, ['channel_tag'=>'asc', 'program_date'=>'desc', 'starttime'=>'desc']);
+    }
 }

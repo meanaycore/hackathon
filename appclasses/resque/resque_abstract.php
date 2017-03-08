@@ -12,4 +12,19 @@ abstract class ResqueHackathon
 
     abstract function perform();
 
+    protected function getArrayValue($array, $key, $default=null)
+    {
+        if (isset($array[$key])) {
+            $value = $array[$key];
+        } else {
+            $value = $default;
+        }
+
+        if ($value == 'N/A') {
+            $value = $default;
+        }
+
+        return $value;
+    }
+
 }

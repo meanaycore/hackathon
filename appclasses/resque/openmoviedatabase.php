@@ -25,7 +25,9 @@ class Resque_OpenMovieDatabase extends ResqueHackathon
         }
 
         $queryParams = [
-            't' => $currentProgram['title']
+            't' => $currentProgram['title'],
+            'plot' => 'full',
+            'tomatoes' => 'true',
         ];
 
         if (!empty($currentProgram['season_id'])) {

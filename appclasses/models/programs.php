@@ -55,8 +55,6 @@ ORDER BY starttime ASC
 sql;
 
         return $this->db->query($sql, ['channel_tag'=>$channelTag, 'program_date'=>$date]);
-
-        return $this->db->select($this->tableName, ['channel_tag'=>$channelTag, 'program_date'=>$date], null, null, ['starttime'=>'asc']);
     }
 
     public function getForEndDateFix()
@@ -81,6 +79,21 @@ sql;
         return $this->db->query('select programschedule.title, programschedule.programid, programinfo.season_id from programschedule 
         INNER JOIN programinfo ON (programschedule.programid = programinfo.programid)
         WHERE channel_tag IN ('.$string.')  group by title');
+    }
+
+    public function getScheduleForShow($show)
+    {
+        $sql = <<<sql
+SELECT programschedule.*, programinfo.description, season_id, episode_id, showinfo.shorturl, showtype, showinfo.showimage, channelname, channelnumber, channeltag, channellogo
+FROM programschedule
+INNER JOIN programinfo ON (programschedule.programid = programinfo.programid)
+INNER JOIN channels ON (programschedule.channel_tag = channels.channeltag)
+LEFT JOIN showinfo ON (programschedule.title = showinfo.internaltitle)
+WHERE programschedule.title = :show
+ORDER BY starttime ASC
+sql;
+
+        return $this->db->query($sql, ['show'=>$show], null, null, ['program_date'=>'asc', 'startime'=>'asc']);
     }
 
 

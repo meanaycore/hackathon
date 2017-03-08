@@ -126,7 +126,13 @@ class AppRun extends \SlimRunner\SlimRunner
 
         $this->template->persistTemplateVar('pageTitle', $show['title']);
 
-        return $this->template->loadTemplate('content/showinfo.tpl', array('show'=>$show));
+
+        $programsObj = $this->db->loadModel('Programs');
+
+        $schedule = $programsObj->getScheduleForShow($show['internaltitle']);
+
+
+        return $this->template->loadTemplate('content/showinfo.tpl', array('show'=>$show, 'schedule'=>$schedule));
     }
 
     protected function movies_get()

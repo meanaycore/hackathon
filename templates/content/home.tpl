@@ -1,4 +1,8 @@
-<h1>Dummy Content from DB</h1>
+<div class="jumbotron">
+    <h1>Hello, world!</h1>
+    <p>...</p>
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div>
 
 <p>Note: this is <a href="http://www.smarty.net/">smarty syntax</a></p>
 

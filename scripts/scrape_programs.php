@@ -8,7 +8,7 @@ $genresDb = $db->loadModel('Genres');
 
 $genres = $genresDb->getIndexableGenres();
 
-$numberOfDays = 2;
+$numberOfDays = 7;
 
 $date = date('Y-m-d');
 

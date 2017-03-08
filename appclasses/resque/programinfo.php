@@ -8,7 +8,7 @@
 
 use SlimRunner\AppConfig as AppConfig;
 
-class Resque_ProgramInfo extends ResqueHackathon
+class ResqueProgramInfo extends ResqueHackathon
 {
 
     public function perform()
@@ -20,14 +20,18 @@ class Resque_ProgramInfo extends ResqueHackathon
 
         Logger::log($url, __FILE__, __LINE__, __METHOD__);
 
+        $programInfo = $this->db->loadModel('ProgramInfo');
+        $currentProgram = $programInfo->getByProgrammeId($this->args['programid']);
+
+        if (!empty($currentProgram)) {
+            return ;
+        }
+
 
         $content = CurlCaller::call('get', $url);
 
         if (!empty($content)) {
 
-            $programInfo = $this->db->loadModel('ProgramInfo');
-
-            $currentProgram = $programInfo->getByProgrammeId($this->args['programid']);
 
             Logger::log(print_r($currentProgram, TRUE), __FILE__, __LINE__, __METHOD__);
 
@@ -48,8 +52,8 @@ class Resque_ProgramInfo extends ResqueHackathon
             }
 
             // For now, lets just do series
-            if (!empty($data['season_id'])) {
-                Resque::enqueue(AppConfig::get('redis', 'queue'), 'ResqueOpenMovieDatabase', ['programid'=>$data['programid']]);
+            if (isset($this->args['use_openmovieapi']) && $this->args['use_openmovieapi'] === true) {
+                //Resque::enqueue(AppConfig::get('redis', 'queue'), 'ResqueOpenMovieDatabase', ['programid'=>$data['programid']]);
             }
 
 

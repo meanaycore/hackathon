@@ -31,6 +31,9 @@ class ResqueProgramParser extends ResqueHackathon
 
         $content = CurlCaller::call('get', $url);
 
+
+        $channelIndexList = explode('|', AppConfig::get('channels', 'channelIndexList'));
+
         if (!empty($content)) {
 
             $content = json_decode($content, TRUE);
@@ -77,10 +80,17 @@ class ResqueProgramParser extends ResqueHackathon
                         }
 
 
-                        Resque::enqueue(AppConfig::get('redis', 'queue'), 'Resque_ProgramInfo', ['programid'=>$data['programid']]);
+                        $params =  [
+                            'programid'=>$data['programid'],
+                        ];
 
+                        if (in_array($key, $channelIndexList)) {
+                            $params['use_openmovieapi'] = true;
+                        } else {
+                            $params['use_openmovieapi'] = false;
+                        }
 
-                        //Logger::log(print_r($data, true), __FILE__, __LINE__, __METHOD__);
+                        Resque::enqueue(AppConfig::get('redis', 'queue'), 'ResqueProgramInfo', $params);
                     }
                 }
             }
